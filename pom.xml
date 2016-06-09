@@ -10,7 +10,7 @@
     </parent>
     
     <artifactId>github-test-utils</artifactId>
-    <version>1.0</version>
+    <version>1.1-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>Test Utilities Package</name>
     <description>small collection of small utilities helpful for testing</description>
@@ -50,7 +50,7 @@
         <connection>scm:git:git://github.com/jjYBdx4IL/github-test-utils.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/jjYBdx4IL/github-test-utils.git</developerConnection>
         <url>https://github.com/jjYBdx4IL/github-test-utils</url>
-        <tag>1.0</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <build>
