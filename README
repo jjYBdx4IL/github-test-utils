@@ -1,0 +1,5 @@
+Only test classes should depend on this module.
+
+One of the reasons is that the module depends on jetty which itself
+introduces conflict with "mvn gwt:run".
+
