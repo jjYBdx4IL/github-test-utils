@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.github.jjYBdx4IL</groupId>
         <artifactId>github-parent</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0</version>
         <relativePath>../github-parent</relativePath>
     </parent>
     
@@ -14,6 +14,7 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>Test Utilities Package</name>
+    <description>small collection of small utilities helpful for testing</description>
     <url>https://github.com/jjYBdx4IL/github-test-utils</url>
     <inceptionYear>2016</inceptionYear>
      
@@ -41,10 +42,10 @@
         </developer>
     </developers>
     
-    <ciManagement>
+    <issueManagement>
         <system>Github Issues</system>
         <url>https://github.com/jjYBdx4IL/github-test-utils/issues</url>
-    </ciManagement>
+    </issueManagement>
     
     <scm>
         <connection>scm:git:git://github.com/jjYBdx4IL/github-test-utils.git</connection>
@@ -52,6 +53,22 @@
         <url>https://github.com/jjYBdx4IL/github-test-utils</url>
         <tag>HEAD</tag>
     </scm>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>default-jar</id>
+                        <goals>
+                            <goal>test-jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
     <dependencies>
         <!-- sorted by artifactId -->
