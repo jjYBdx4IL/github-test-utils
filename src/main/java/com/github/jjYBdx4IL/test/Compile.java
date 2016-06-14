@@ -20,6 +20,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -168,7 +169,7 @@ public abstract class Compile {
                 log.debug(compiler + " exit code: " + exitCode);
                 log.debug(compiler + " console output: " + compilerOutput);
             } else {
-            	log.error(compiler + " execution failed, command was: "+String.join(" ", args));
+            	log.error(compiler + " execution failed, command was: " + Arrays.toString(args.toArray()));
                 log.error(compiler + " exit code: " + exitCode);
                 log.error(compiler + " console output: " + compilerOutput);
                 throw new IllegalStateException(compiler + " returned with exit code " + exitCode);

@@ -23,6 +23,7 @@ import java.net.URL;
 import org.apache.log4j.Logger;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
+import org.junit.Assume;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -59,19 +60,17 @@ public class SeleniumTestBaseTest extends SeleniumTestBase {
 
     @AfterClass
     public static void afterClass() throws Exception {
-        server.close();
+        if (server != null) {
+            server.close();
+            server = null;
+        }
     }
 
-    // there are some issues with chrome driver startup
-    @Ignore
     @Test
     public void testStress() throws WebElementNotFoundException, InterruptedException {
-        //Assume.assumeNotNull(System.getenv("JENKINS_HOME"));
-
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < 100; i++) {
             getDriver().get(testPage1.toExternalForm());
             waitForElement("xpath://input[@name='inputName1']");
-            //Thread.sleep(100000);
             stopDriver();
         }
     }
