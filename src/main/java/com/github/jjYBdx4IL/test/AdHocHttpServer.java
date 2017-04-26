@@ -61,6 +61,8 @@ public class AdHocHttpServer implements AutoCloseable {
     public AdHocHttpServer(File rootDir) throws Exception {
         handler = new StaticContentHandler(rootDir);
         server.setHandler(handler);
+        server.setStopAtShutdown(false);
+        server.setStopTimeout(1000L);
         server.start();
         log.info(String.format("%s started at %s (root dir = %s)",
                 getClass().getSimpleName(),

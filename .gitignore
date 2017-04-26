@@ -1,0 +1,7 @@
+/nbproject/
+/target/
+/*.xml~
+/.project
+/.settings/
+/.classpath
+
