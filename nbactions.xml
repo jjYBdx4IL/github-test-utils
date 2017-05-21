@@ -32,4 +32,11 @@
                 <coswatch>true</coswatch>
             </properties>
         </action>
+        <action>
+            <actionName>CUSTOM-enforce</actionName>
+            <displayName>enforce</displayName>
+            <goals>
+                <goal>enforcer:enforce</goal>
+            </goals>
+        </action>
     </actions>

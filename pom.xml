@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.github.jjYBdx4IL</groupId>
         <artifactId>github-parent</artifactId>
-        <version>1.0</version>
+        <version>1.1-SNAPSHOT</version>
         <relativePath>../github-parent</relativePath>
     </parent>
     
@@ -93,9 +93,24 @@
             <artifactId>log4j</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
+<!--        <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-server</artifactId>
+        </dependency>-->
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>htmlunit-driver</artifactId>
+            <version>2.26</version>
+        </dependency>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-chrome-driver</artifactId>
+            <version>3.4.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-firefox-driver</artifactId>
+            <version>3.4.0</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>

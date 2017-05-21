@@ -15,6 +15,7 @@
  */
 package com.github.jjYBdx4IL.test.selenium;
 
+import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.github.jjYBdx4IL.test.JsoupTools;
 import com.github.jjYBdx4IL.test.Screenshot;
 
@@ -25,6 +26,8 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.function.Function;
+import java.util.logging.Level;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -50,6 +53,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
+import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.Select;
@@ -102,12 +106,19 @@ public class SeleniumTestBase {
      * @param name
      */
     public void takeScreenshot(String name) {
+        TakesScreenshot takesScreenshot;
+        if (getDriver() instanceof TakesScreenshot) {
+            takesScreenshot = (TakesScreenshot) getDriver();
+        } else {
+            log.debug("current driver does not support taking screenshots");
+            return;
+        }
         try {
             String outputFilePath = String.format(Locale.ROOT, "%s%03d_%s%s", OUTPUT_DIR, ++screenShotId, name,
                     SCREENSHOT_EXT);
             File output = new File(outputFilePath);
             log.info("writing remote screenshot: " + output.getCanonicalPath());
-            File scrFile = ((TakesScreenshot) getDriver()).getScreenshotAs(OutputType.FILE);
+            File scrFile = takesScreenshot.getScreenshotAs(OutputType.FILE);
             if (output.exists()) {
                 log.warn("screenshot output file exists, overwriting it");
                 if (!output.delete()) {
@@ -157,8 +168,8 @@ public class SeleniumTestBase {
         setInputFieldValue(el, value);
     }
 
-    public void waitUntil(Predicate<WebDriver> predicate) {
-        new WebDriverWait(getDriver(), CLICK_WAIT4ELEMENT_MILLIS / 1000).until(predicate);
+    public void waitUntil(Function<? super WebDriver, ?> isTrue) {
+        new WebDriverWait(getDriver(), CLICK_WAIT4ELEMENT_MILLIS / 1000).until(isTrue);
     }
 
     public String switchToWindowOtherThan(String windowHandle) {
@@ -205,6 +216,9 @@ public class SeleniumTestBase {
                     fp.setPreference("browser.tabs.warnOnOpen", false);
                     setDriver(new FirefoxDriver(fp));
                     break;
+                case HTMLUNIT:
+                    setDriver(new HtmlUnitDriver(true));
+                    break;
                 default:
                     throw new RuntimeException("not yet supported driver: " + driverType);
             }
@@ -214,6 +228,9 @@ public class SeleniumTestBase {
     }
 
     public static void dumpVersion() {
+        if (!(driver instanceof RemoteWebDriver)) {
+            return;
+        }
         Capabilities caps = ((RemoteWebDriver) driver).getCapabilities();
         log.info("browser: " + caps.getBrowserName() + " "
                 + caps.getVersion() + " (" + caps.getPlatform() + ")");
@@ -319,10 +336,11 @@ public class SeleniumTestBase {
      * @param text the text value of the element to select
      * @throws WebElementNotFoundException
      */
-    public void click(String text) throws WebElementNotFoundException {
+    public WebElement click(String text) throws WebElementNotFoundException {
         log.info("click(" + text + ")");
         WebElement el = waitForElement(text);
         el.click();
+        return el;
     }
 
     public void scrollAndClick(WebElement clickable) {
@@ -360,6 +378,7 @@ public class SeleniumTestBase {
                 try {
                     Thread.sleep(CLICK_WAIT4ELEMENT_POLL_MILLIS);
                 } catch (InterruptedException ex) {
+                    log.error("", ex);
                 }
             }
         } while ((e == null) && System.currentTimeMillis() < timeout);
@@ -529,6 +548,6 @@ public class SeleniumTestBase {
 
     public enum Driver {
 
-        FIREFOX, CHROME
+        FIREFOX, CHROME, HTMLUNIT
     }
 }

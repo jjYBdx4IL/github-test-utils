@@ -20,10 +20,8 @@ import static com.github.jjYBdx4IL.test.selenium.SeleniumTestBase.getDriver;
 
 import java.net.URL;
 
-import org.apache.log4j.Logger;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
-import org.junit.Assume;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -37,8 +35,6 @@ import org.openqa.selenium.support.ui.Select;
  */
 public class SeleniumTestBaseTest extends SeleniumTestBase {
 
-    @SuppressWarnings("unused")
-	private final static Logger log = Logger.getLogger(SeleniumTestBaseTest.class.getName());
     protected static AdHocHttpServer server = null;
     protected static URL testPage1 = null;
     protected final static String testPage1Content
@@ -66,6 +62,8 @@ public class SeleniumTestBaseTest extends SeleniumTestBase {
         }
     }
 
+    // TODO: CI env detection
+    @Ignore
     @Test
     public void testStress() throws WebElementNotFoundException, InterruptedException {
         for (int i = 0; i < 100; i++) {

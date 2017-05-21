@@ -60,16 +60,16 @@ public class AdHocHttpServerTest {
         URL url2 = server.addStaticContent("/test2", new AdHocHttpServer.StaticResponse("CONTENT2"));
         log.info("url1 = " + url1.toExternalForm());
         log.info("url2 = " + url2.toExternalForm());
-        assertEquals("CONTENT1", IOUtils.toString(url1));
-        assertEquals("CONTENT2", IOUtils.toString(url2));
+        assertEquals("CONTENT1", IOUtils.toString(url1, "UTF-8"));
+        assertEquals("CONTENT2", IOUtils.toString(url2, "UTF-8"));
     }
 
     @Test
     public void testAddStaticContentOverwrite() throws MalformedURLException, IOException {
         URL url1 = server.addStaticContent("/test1", new AdHocHttpServer.StaticResponse("CONTENT1"));
-        assertEquals("CONTENT1", IOUtils.toString(url1));
+        assertEquals("CONTENT1", IOUtils.toString(url1, "UTF-8"));
         url1 = server.addStaticContent("/test1", new AdHocHttpServer.StaticResponse("CONTENT2"));
-        assertEquals("CONTENT2", IOUtils.toString(url1));
+        assertEquals("CONTENT2", IOUtils.toString(url1, "UTF-8"));
     }
 
     @Test
@@ -80,8 +80,8 @@ public class AdHocHttpServerTest {
             URL url2 = server2.addStaticContent("/test2", new AdHocHttpServer.StaticResponse("CONTENT2"));
             log.info("url1 = " + url1.toExternalForm());
             log.info("url2 = " + url2.toExternalForm());
-            assertEquals("CONTENT1", IOUtils.toString(url1));
-            assertEquals("CONTENT2", IOUtils.toString(url2));
+            assertEquals("CONTENT1", IOUtils.toString(url1, "UTF-8"));
+            assertEquals("CONTENT2", IOUtils.toString(url2, "UTF-8"));
 
             // negative tests
             String url1b = url1.toExternalForm().replaceFirst("1$", "2");
@@ -98,7 +98,7 @@ public class AdHocHttpServerTest {
         URL url2 = server.addStaticContent("/test2", new AdHocHttpServer.StaticResponse("CONTENT2"));
         URL url1 = server.addStaticContent("/test1",
                 new AdHocHttpServer.StaticResponse(url2.toExternalForm(), HttpServletResponse.SC_MOVED_PERMANENTLY));
-        assertEquals("CONTENT2", IOUtils.toString(url1));
+        assertEquals("CONTENT2", IOUtils.toString(url1, "UTF-8"));
     }
 
     @Test
@@ -110,10 +110,10 @@ public class AdHocHttpServerTest {
         URL url2 = server.addStaticContent("/test2", new AdHocHttpServer.StaticResponse("CONTENT2"));
         log.info("url1 = " + url1.toExternalForm());
         log.info("url2 = " + url2.toExternalForm());
-        assertEquals("CONTENT1", IOUtils.toString(url1));
-        assertEquals("CONTENT2", IOUtils.toString(url2));
+        assertEquals("CONTENT1", IOUtils.toString(url1, "UTF-8"));
+        assertEquals("CONTENT2", IOUtils.toString(url2, "UTF-8"));
 
-        assertEquals("aaa\n", IOUtils.toString(server.computeServerURL("/a.txt")));
+        assertEquals("aaa\n", IOUtils.toString(server.computeServerURL("/a.txt"), "UTF-8"));
     }
 
 }
