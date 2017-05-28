@@ -15,11 +15,8 @@
  */
 package com.github.jjYBdx4IL.test.selenium;
 
-import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.github.jjYBdx4IL.test.JsoupTools;
 import com.github.jjYBdx4IL.test.Screenshot;
-
-import com.google.common.base.Predicate;
 
 import java.io.File;
 import java.io.IOException;
@@ -27,10 +24,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.function.Function;
-import java.util.logging.Level;
+import java.util.regex.Pattern;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Rule;
@@ -56,6 +54,7 @@ import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
@@ -67,23 +66,38 @@ import org.slf4j.LoggerFactory;
  */
 public class SeleniumTestBase {
 
-    private static final Logger log = LoggerFactory.getLogger(SeleniumTestBase.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SeleniumTestBase.class);
+    public static final String GWT_DEBUG_ID_PREFIX = "gwt-debug-";
     private static WebDriver driver;
     public static final String OUTPUT_DIR = "target/screenshots/";
     public static final String SCREENSHOT_EXT = ".png";
+    protected static final int DEFAULT_WAIT_SECS = 30;
     protected static final int CLICK_WAIT4ELEMENT_MILLIS = 120 * 1000;
     protected static final int CLICK_WAIT4ELEMENT_POLL_MILLIS = 2 * 1000;
     private static final Driver DEFAULT_DRIVER = Driver.CHROME;
     private static long screenShotId = 0L;
     private String testName = null;
+    private boolean seleniumDriverRestartAfterEachTest = false;
 
     @AfterClass
     public static void tearDown() {
         stopDriver();
     }
+    
+    @After
+    public void after() {
+        if (seleniumDriverRestartAfterEachTest) {
+            stopDriver();
+        }
+    }
+    
+    protected void enabledSeleniumDriverRestartAfterEachTest() {
+        seleniumDriverRestartAfterEachTest = true;
+    }
 
     public static void stopDriver() {
         if (driver != null) {
+            driver.close();
             driver.quit();
             driver = null;
         }
@@ -110,19 +124,19 @@ public class SeleniumTestBase {
         if (getDriver() instanceof TakesScreenshot) {
             takesScreenshot = (TakesScreenshot) getDriver();
         } else {
-            log.debug("current driver does not support taking screenshots");
+            LOG.debug("current driver does not support taking screenshots");
             return;
         }
         try {
             String outputFilePath = String.format(Locale.ROOT, "%s%03d_%s%s", OUTPUT_DIR, ++screenShotId, name,
                     SCREENSHOT_EXT);
             File output = new File(outputFilePath);
-            log.info("writing remote screenshot: " + output.getCanonicalPath());
+            LOG.info("writing remote screenshot: " + output.getCanonicalPath());
             File scrFile = takesScreenshot.getScreenshotAs(OutputType.FILE);
             if (output.exists()) {
-                log.warn("screenshot output file exists, overwriting it");
+                LOG.warn("screenshot output file exists, overwriting it");
                 if (!output.delete()) {
-                    log.error("failed to remove previous screenshot file");
+                    LOG.error("failed to remove previous screenshot file");
                 }
             }
             FileUtils.moveFile(scrFile, output);
@@ -232,7 +246,7 @@ public class SeleniumTestBase {
             return;
         }
         Capabilities caps = ((RemoteWebDriver) driver).getCapabilities();
-        log.info("browser: " + caps.getBrowserName() + " "
+        LOG.info("browser: " + caps.getBrowserName() + " "
                 + caps.getVersion() + " (" + caps.getPlatform() + ")");
     }
 
@@ -248,7 +262,6 @@ public class SeleniumTestBase {
 
         @Override
         protected void succeeded(Description description) {
-            tearDown();
         }
 
         @Override
@@ -258,22 +271,21 @@ public class SeleniumTestBase {
             }
             try {
                 if (e instanceof UnhandledAlertException) {
-                    log.error(((UnhandledAlertException) e).getAlertText());
+                    LOG.error(((UnhandledAlertException) e).getAlertText());
                     takeLocalScreenshot("UnhandledAlertException");
                 } else if (e instanceof TimeoutException) {
-                    log.error("timeout", e);
+                    LOG.error("timeout", e);
                     takeLocalScreenshot("TimeoutException");
-                    log.error("body content: " + getPrettyPageSource());
+                    LOG.error("body content: " + getPrettyPageSource());
                 } else {
-                    log.error("testFailure", e);
+                    LOG.error("testFailure", e);
                     takeLocalScreenshot("testFailure");
                     takeScreenshot("testFailure");
-                    log.error("body content: " + getPrettyPageSource());
+                    LOG.error("body content: " + getPrettyPageSource());
                 }
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
             } finally {
-                tearDown();
             }
         }
     };
@@ -337,7 +349,7 @@ public class SeleniumTestBase {
      * @throws WebElementNotFoundException
      */
     public WebElement click(String text) throws WebElementNotFoundException {
-        log.info("click(" + text + ")");
+        LOG.info("click(" + text + ")");
         WebElement el = waitForElement(text);
         el.click();
         return el;
@@ -348,9 +360,24 @@ public class SeleniumTestBase {
         actions.moveToElement(clickable).click().perform();
     }
 
+    public void waitForAttribute(final By locator, final String attrName, final Pattern pattern) {
+        LOG.info("waitForAttribute(" + locator + ", " + attrName + ", " + pattern + ")");
+        new WebDriverWait(getDriver(), DEFAULT_WAIT_SECS).until(new ExpectedCondition<Boolean>() {
+            public Boolean apply(WebDriver driver) {
+                WebElement button = driver.findElement(locator);
+                String value = button.getAttribute(attrName);
+                if (pattern.matcher(value).find()) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        });
+    }
+
     /**
-     * Wait until there is some element returned by {@link #findElement} which is displayed and enabled. The
-     * timeout is given by {@link #CLICK_WAIT4ELEMENT_MILLIS}.
+     * Wait until there is some element returned by {@link #findElement} which is displayed and enabled. The timeout is
+     * given by {@link #CLICK_WAIT4ELEMENT_MILLIS}.
      *
      * @param text the text value of the element to select
      * @return
@@ -358,7 +385,7 @@ public class SeleniumTestBase {
      */
     public WebElement waitForElement(String text, Boolean displayed, Boolean enabled)
             throws WebElementNotFoundException {
-        log.info("waitForElement(" + text + ")");
+        LOG.info("waitForElement(" + text + ")");
 
         WebElement e = null;
         long timeout = System.currentTimeMillis() + CLICK_WAIT4ELEMENT_MILLIS;
@@ -378,7 +405,7 @@ public class SeleniumTestBase {
                 try {
                     Thread.sleep(CLICK_WAIT4ELEMENT_POLL_MILLIS);
                 } catch (InterruptedException ex) {
-                    log.error("", ex);
+                    LOG.error("", ex);
                 }
             }
         } while ((e == null) && System.currentTimeMillis() < timeout);
@@ -433,7 +460,7 @@ public class SeleniumTestBase {
     }
 
     public WebElement getElementByName(String elementTag, String name) throws WebElementNotFoundException {
-        String xpath = "xpath://*[(name()='"+StringUtils.join(elementTag.split("\\|"), "' or name()='")+"') and @name='" + name + "']";
+        String xpath = "xpath://*[(name()='" + StringUtils.join(elementTag.split("\\|"), "' or name()='") + "') and @name='" + name + "']";
         return waitForElement(xpath, null, null);
     }
 
@@ -455,8 +482,8 @@ public class SeleniumTestBase {
     }
 
     /**
-     * This method uses {@link JsoupTools#prettyFormatHtml(java.lang.String, boolean)}, so beware that some
-     * content may get truncated for nicer display.
+     * This method uses {@link JsoupTools#prettyFormatHtml(java.lang.String, boolean)}, so beware that some content may
+     * get truncated for nicer display.
      *
      * @return
      */
