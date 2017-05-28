@@ -77,7 +77,7 @@ public class SeleniumTestBase {
     private static final Driver DEFAULT_DRIVER = Driver.CHROME;
     private static long screenShotId = 0L;
     private String testName = null;
-    private boolean seleniumDriverRestartAfterEachTest = false;
+    private static boolean seleniumDriverRestartAfterEachTest = false;
 
     @AfterClass
     public static void tearDown() {
@@ -91,7 +91,7 @@ public class SeleniumTestBase {
         }
     }
     
-    protected void enabledSeleniumDriverRestartAfterEachTest() {
+    protected static void enabledSeleniumDriverRestartAfterEachTest() {
         seleniumDriverRestartAfterEachTest = true;
     }
 
