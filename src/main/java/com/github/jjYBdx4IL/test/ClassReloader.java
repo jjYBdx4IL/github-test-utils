@@ -1,11 +1,11 @@
 /*
- * Copyright (C) 2016 jjYBdx4IL (https://github.com/jjYBdx4IL)
+ * Copyright © 2016 jjYBdx4IL (https://github.com/jjYBdx4IL)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 package com.github.jjYBdx4IL.test;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.DataInputStream;
 import java.io.File;
@@ -27,9 +30,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+//CHECKSTYLE:OFF
 /**
  *
  * @author jjYBdx4IL
@@ -128,6 +129,9 @@ public class ClassReloader extends ClassLoader {
 
     /**
      * @see #watchLoadAndRun(String,String,ClassLoader)
+     * @param classPath the class path
+     * @param runnerClassName the runner class name
+     * @return the thread
      */
     public static Thread watchLoadAndRun(final String classPath, final String runnerClassName) {
         return watchLoadAndRun(classPath, runnerClassName, null);
@@ -139,7 +143,7 @@ public class ClassReloader extends ClassLoader {
      * {@link Runnable}.
      *
      * @param classPath all parts of the classpath must be on the same file system
-     * @param runnerClassName
+     * @param runnerClassName the runner class name
      * @param orig fallback class loader to use when this one cannot find the class in the given classPath;
      * example: Thread.currentThread().getContextClassLoader()
      * @return unstarted thread

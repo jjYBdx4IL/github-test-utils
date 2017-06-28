@@ -1,11 +1,11 @@
 /*
- * Copyright (C) 2016 jjYBdx4IL (https://github.com/jjYBdx4IL)
+ * Copyright © 2016 jjYBdx4IL (https://github.com/jjYBdx4IL)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,14 +17,6 @@ package com.github.jjYBdx4IL.test.selenium;
 
 import com.github.jjYBdx4IL.test.JsoupTools;
 import com.github.jjYBdx4IL.test.Screenshot;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.function.Function;
-import java.util.regex.Pattern;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -60,6 +52,15 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+import java.util.function.Function;
+import java.util.regex.Pattern;
+
+//CHECKSTYLE:OFF
 /**
  *
  * @author jjYBdx4IL
@@ -106,7 +107,7 @@ public class SeleniumTestBase {
     /**
      * Local screenshots take a screenshot of the entire desktop. They are required to catch alerts.
      *
-     * @param name
+     * @param name the name
      */
     public void takeLocalScreenshot(String name) {
         String outputFilePath = String.format(Locale.ROOT, "%s%03d_%s%s", OUTPUT_DIR, ++screenShotId, name,
@@ -117,7 +118,7 @@ public class SeleniumTestBase {
     /**
      * Take a screenshot of the browser's current page.
      *
-     * @param name
+     * @param name the name
      */
     public void takeScreenshot(String name) {
         TakesScreenshot takesScreenshot;
@@ -157,11 +158,10 @@ public class SeleniumTestBase {
     }
 
     /**
-     * Tries to force a key up event even when the {
-     *
-     * @plain value} argument is empty or null.
-     * @param el
-     * @param value
+     * Tries to force a key up event even when the value argument is empty or null.
+     * 
+     * @param el the input element
+     * @param value the value to set
      */
     public void setInputFieldValue(WebElement el, String value) {
         if ("select".equals(el.getTagName().toLowerCase(Locale.ROOT))) {
@@ -314,7 +314,7 @@ public class SeleniumTestBase {
      * Assert that the element in question exists, is displayed, and is disabled.
      *
      * @param text the text value of the element to select via {@link #findElement}
-     * @throws com.github.jjYBdx4IL.test.selenium.WebElementNotFoundException
+     * @throws com.github.jjYBdx4IL.test.selenium.WebElementNotFoundException if not found
      */
     public void assertElementDisabled(String text) throws WebElementNotFoundException {
         WebElement e = assertElement(text);
@@ -330,7 +330,7 @@ public class SeleniumTestBase {
      * Assert that the element in question exists, is displayed, but is enabled.
      *
      * @param text the text value of the element to select via {@link #findElement}
-     * @throws com.github.jjYBdx4IL.test.selenium.WebElementNotFoundException
+     * @throws com.github.jjYBdx4IL.test.selenium.WebElementNotFoundException if not found
      */
     public void assertElementEnabled(String text) throws WebElementNotFoundException {
         WebElement e = assertElement(text);
@@ -346,7 +346,8 @@ public class SeleniumTestBase {
      * Wait for some element using {@link #waitForElement}, then click it.
      *
      * @param text the text value of the element to select
-     * @throws WebElementNotFoundException
+     * @throws WebElementNotFoundException if not found
+     * @return the element
      */
     public WebElement click(String text) throws WebElementNotFoundException {
         LOG.info("click(" + text + ")");
@@ -380,8 +381,10 @@ public class SeleniumTestBase {
      * given by {@link #CLICK_WAIT4ELEMENT_MILLIS}.
      *
      * @param text the text value of the element to select
-     * @return
-     * @throws WebElementNotFoundException
+     * @param displayed require displayed
+     * @param enabled require enabled
+     * @return the element
+     * @throws WebElementNotFoundException if not found
      */
     public WebElement waitForElement(String text, Boolean displayed, Boolean enabled)
             throws WebElementNotFoundException {
@@ -485,7 +488,7 @@ public class SeleniumTestBase {
      * This method uses {@link JsoupTools#prettyFormatHtml(java.lang.String, boolean)}, so beware that some content may
      * get truncated for nicer display.
      *
-     * @return
+     * @return the prettified page source
      */
     protected String getPrettyPageSource() {
         return JsoupTools.prettyFormatHtml(getDriver().getPageSource(), true);

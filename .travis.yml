@@ -11,4 +11,7 @@ before_script:
   - sleep 3 # give xvfb some time to start
 before_install:
   - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x1024x16"
-
+  - git clone https://github.com/jjYBdx4IL/misc
+  - mvn install -f misc/checkstyle-configurations
+  - git clone https://github.com/jjYBdx4IL/github-parent
+  - mvn install -f github-parent -DskipTests

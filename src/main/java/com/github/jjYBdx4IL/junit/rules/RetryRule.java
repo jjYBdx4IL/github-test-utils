@@ -1,11 +1,11 @@
 /*
- * Copyright (C) 2016 jjYBdx4IL (https://github.com/jjYBdx4IL)
+ * Copyright © 2016 jjYBdx4IL (https://github.com/jjYBdx4IL)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -25,13 +25,17 @@ import org.slf4j.LoggerFactory;
  * Problems:
  * <ul>
  * <li>retries test if it fails on the @BeforeClass stage
- * <li>calculates tests run a bit differently (when you have 3 retries, you will receive test Runs: 4, success
- * 1 that might be confusing)
+ * <li>calculates tests run a bit differently (when you have 3 retries, you will
+ * receive test Runs: 4, success 1 that might be confusing)
  * </ul>
  *
- * @see http://stackoverflow.com/a/20762914/1050755
+ * <p>
+ * See http://stackoverflow.com/a/20762914/1050755
+ * </p>
+ * 
  * @author jjYBdx4IL
  */
+//CHECKSTYLE:OFF
 public class RetryRule implements TestRule {
 
     private static final Logger log = LoggerFactory.getLogger(RetryRule.class);

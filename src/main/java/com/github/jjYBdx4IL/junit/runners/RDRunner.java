@@ -1,11 +1,11 @@
 /*
- * Copyright (C) 2016 jjYBdx4IL (https://github.com/jjYBdx4IL)
+ * Copyright © 2016 jjYBdx4IL (https://github.com/jjYBdx4IL)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,19 +16,6 @@
 package com.github.jjYBdx4IL.junit.runners;
 
 import com.github.jjYBdx4IL.test.ClassReloader;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.FileSystem;
-import java.nio.file.FileVisitResult;
-import java.nio.file.FileVisitor;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardWatchEventKinds;
-import java.nio.file.WatchEvent;
-import java.nio.file.WatchKey;
-import java.nio.file.WatchService;
-import java.nio.file.attribute.BasicFileAttributes;
 
 import org.junit.Ignore;
 import org.junit.internal.AssumptionViolatedException;
@@ -44,11 +31,25 @@ import org.junit.runners.model.Statement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.FileSystem;
+import java.nio.file.FileVisitResult;
+import java.nio.file.FileVisitor;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardWatchEventKinds;
+import java.nio.file.WatchEvent;
+import java.nio.file.WatchKey;
+import java.nio.file.WatchService;
+import java.nio.file.attribute.BasicFileAttributes;
+
 /**
  * Rapid Development Runner.
  *
  * @author jjYBdx4IL
  */
+//CHECKSTYLE:OFF
 public class RDRunner extends BlockJUnit4ClassRunner {
 
     private static final Logger log = LoggerFactory.getLogger(RDRunner.class);
@@ -155,9 +156,10 @@ public class RDRunner extends BlockJUnit4ClassRunner {
 
     /**
      * Runs a {@link Statement} that represents a leaf (aka atomic) test.
-     * @param statement
-     * @param description
-     * @param notifier
+     * 
+     * @param statement the statement
+     * @param description the description
+     * @param notifier the notifier
      */
     protected final void runTestUnit(Statement statement, Description description, RunNotifier notifier) {
         EachTestNotifier eachNotifier = new EachTestNotifier(notifier, description);

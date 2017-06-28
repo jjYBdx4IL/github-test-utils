@@ -1,11 +1,11 @@
 /*
- * Copyright (C) 2016 jjYBdx4IL (https://github.com/jjYBdx4IL)
+ * Copyright © 2016 jjYBdx4IL (https://github.com/jjYBdx4IL)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -28,6 +28,7 @@ import org.junit.runners.model.Statement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+//CHECKSTYLE:OFF
 /**
  *
  * @author jjYBdx4IL
@@ -79,6 +80,10 @@ public class RetryRunner extends BlockJUnit4ClassRunner {
     }
     /**
      * Runs a {@link Statement} that represents a leaf (aka atomic) test.
+     * 
+     * @param statement the statement
+     * @param description the description
+     * @param notifier the notifier
      */
     protected final void runTestUnit(Statement statement, Description description,
             RunNotifier notifier) {

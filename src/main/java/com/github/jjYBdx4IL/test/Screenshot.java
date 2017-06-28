@@ -1,11 +1,11 @@
 /*
- * Copyright (C) 2016 jjYBdx4IL (https://github.com/jjYBdx4IL)
+ * Copyright © 2016 jjYBdx4IL (https://github.com/jjYBdx4IL)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 package com.github.jjYBdx4IL.test;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.awt.AWTException;
 import java.awt.Dimension;
@@ -30,9 +33,7 @@ import java.util.regex.Pattern;
 
 import javax.imageio.ImageIO;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+//CHECKSTYLE:OFF
 /**
  *
  * @author jjYBdx4IL
@@ -44,40 +45,41 @@ public class Screenshot {
     private final static Pattern allowedExtensions = Pattern.compile("\\.(png|jpg|jpeg)$", Pattern.CASE_INSENSITIVE);
 
     /**
-     * Local screenshots take a screenshot of the entire desktop. They are required to catch alerts.
+     * Local screenshots take a screenshot of the entire desktop. They are
+     * required to catch alerts.
      *
-     * @param outputFilePath
-     * @return
+     * @param outputFilePath the output directory
+     * @return the screenshot
      */
     public static File takeDesktopScreenshot(String outputFilePath) {
         return takeDesktopScreenshot(outputFilePath, false);
     }
 
     public static File getMavenScreenshotOutputDir() {
-        return getMavenScreenshotOutputDir((String)null);
+        return getMavenScreenshotOutputDir((String) null);
     }
-    
+
     public static File getMavenScreenshotOutputDir(Class<?> classType) {
         return getMavenScreenshotOutputDir(classType.getName());
     }
 
     public static File getMavenScreenshotOutputDir(String subDirName) {
-    	File outputDir = new File(FileUtil.getMavenTargetDir(), "screenshots");
+        File outputDir = new File(FileUtil.getMavenTargetDir(), "screenshots");
         if (subDirName != null) {
             outputDir = new File(outputDir, subDirName);
         }
-    	if (!outputDir.exists()) {
-    		outputDir.mkdirs();
-    	}
-    	return outputDir;
+        if (!outputDir.exists()) {
+            outputDir.mkdirs();
+        }
+        return outputDir;
     }
 
     public static File takeDesktopScreenshot(String outputFilePath, boolean placeIntoMavenTargetScreenshotDir) {
         return takeDesktopScreenshot(null, outputFilePath, placeIntoMavenTargetScreenshotDir);
     }
 
-    public static File takeDesktopScreenshot(
-            GraphicsDevice screen, String outputFilePath, boolean placeIntoMavenTargetScreenshotDir) {
+    public static File takeDesktopScreenshot(GraphicsDevice screen, String outputFilePath,
+            boolean placeIntoMavenTargetScreenshotDir) {
         try {
             InteractiveTestBase.waitForSwing();
 
@@ -93,8 +95,7 @@ public class Screenshot {
             if (parentDir != null) {
                 if (!parentDir.exists()) {
                     if (!parentDir.mkdirs()) {
-                        throw new RuntimeException("failed to create "
-                                + parentDir.getAbsolutePath());
+                        throw new RuntimeException("failed to create " + parentDir.getAbsolutePath());
                     }
                 }
             }
@@ -136,10 +137,8 @@ public class Screenshot {
     }
 
     public static BufferedImage createDesktopScreenshot() {
-        Dimension screenDim = Toolkit.getDefaultToolkit()
-                .getScreenSize();
-        return createDesktopScreenshot(0, 0, (int) screenDim
-                .getWidth(), (int) screenDim.getHeight());
+        Dimension screenDim = Toolkit.getDefaultToolkit().getScreenSize();
+        return createDesktopScreenshot(0, 0, (int) screenDim.getWidth(), (int) screenDim.getHeight());
     }
 
     public static BufferedImage createDesktopScreenshot(GraphicsDevice screen) {
@@ -156,13 +155,13 @@ public class Screenshot {
         return createDesktopScreenshot(screen, X_OFFSET.LEFT, Y_OFFSET.TOP, x, y, w, h);
     }
 
-    public static BufferedImage createDesktopScreenshot(
-            X_OFFSET x_offset, Y_OFFSET y_offset, int x, int y, int w, int h) {
+    public static BufferedImage createDesktopScreenshot(X_OFFSET x_offset, Y_OFFSET y_offset, int x, int y, int w,
+            int h) {
         return createDesktopScreenshot(null, x_offset, y_offset, x, y, w, h);
     }
 
-    public static BufferedImage createDesktopScreenshot(
-            GraphicsDevice screen, X_OFFSET x_offset, Y_OFFSET y_offset, int x, int y, int w, int h) {
+    public static BufferedImage createDesktopScreenshot(GraphicsDevice screen, X_OFFSET x_offset, Y_OFFSET y_offset,
+            int x, int y, int w, int h) {
         try {
             final Dimension screenDim;
             final Robot objRobot;
@@ -177,25 +176,25 @@ public class Screenshot {
 
             int _x = x;
             switch (x_offset) {
-                case LEFT:
-                    break;
-                case CENTER:
-                    _x += screenDim.width / 2;
-                    break;
-                case RIGHT:
-                    _x += screenDim.width;
-                    break;
+            case LEFT:
+                break;
+            case CENTER:
+                _x += screenDim.width / 2;
+                break;
+            case RIGHT:
+                _x += screenDim.width;
+                break;
             }
             int _y = y;
             switch (y_offset) {
-                case TOP:
-                    break;
-                case MIDDLE:
-                    _y += screenDim.height / 2;
-                    break;
-                case BOTTOM:
-                    _y += screenDim.height;
-                    break;
+            case TOP:
+                break;
+            case MIDDLE:
+                _y += screenDim.height / 2;
+                break;
+            case BOTTOM:
+                _y += screenDim.height;
+                break;
             }
 
             return objRobot.createScreenCapture(new Rectangle(_x, _y, w, h));

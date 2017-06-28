@@ -1,11 +1,11 @@
 /*
- * Copyright (C) 2016 jjYBdx4IL (https://github.com/jjYBdx4IL)
+ * Copyright © 2016 jjYBdx4IL (https://github.com/jjYBdx4IL)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,10 +15,14 @@
  */
 package com.github.jjYBdx4IL.test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import static org.junit.Assert.*;
 
+//CHECKSTYLE:OFF
 /**
  *
  * @author jjYBdx4IL
@@ -27,7 +31,7 @@ public class RegularExpressionTestBase {
 
     /**
      * Convenience method to test regular expressions. Like
-     * {@link assertRegexSubMatch(String,String,String...)} but regex must match all of input.
+     * {@link #assertRegexSubMatch(String,String,String...)} but regex must match all of input.
      *
      * @param regex the regular expression to test
      * @param input test string
@@ -67,7 +71,7 @@ public class RegularExpressionTestBase {
 
     /**
      * Convenience method to test regular expressions. Named groups variant. Like
-     * {@link assertRegexSubMatchNG(String,String,String...)} but regex must match all of input.
+     * {@link #assertRegexSubMatchNG(String,String,String...)} but regex must match all of input.
      *
      * @param regex the regular expression to test
      * @param input test string

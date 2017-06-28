@@ -1,11 +1,11 @@
 /*
- * Copyright (C) 2016 jjYBdx4IL (https://github.com/jjYBdx4IL)
+ * Copyright © 2016 jjYBdx4IL (https://github.com/jjYBdx4IL)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,6 +15,11 @@
  */
 package com.github.jjYBdx4IL.test;
 
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+import org.apache.commons.io.IOUtils;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,17 +28,15 @@ import java.net.URLConnection;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.io.IOUtils;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
 /**
  * Simple URL testing methods.
  *
- * Think about using {@link org.eclipse.jetty.http.HttpTester} instead.
+ * <p>
+ * Think about using org.eclipse.jetty.http.HttpTester instead.</p>
  *
  * @author jjYBdx4IL
  */
+//CHECKSTYLE:OFF
 public class URLTester {
 
     public static void assertExists(String urlString) throws IOException {
@@ -77,15 +80,15 @@ public class URLTester {
     /**
      * Requests and returns partial http content starting at a specific position.
      * <p>
-     * <b>Untested!</p>
+     * <b>Untested!</b>
      * <p>
      * Reads until the end of the stream.
      * <p>
      *
-     * @param urlString
-     * @param firstBytePosition
+     * @param urlString the url to decode
+     * @param firstBytePosition the offset
      * @return partial http content starting at a specific position
-     * @throws IOException
+     * @throws IOException on error
      */
     public static String getContent(String urlString, long firstBytePosition) throws IOException {
         return getContent(urlString, firstBytePosition, -1L);
@@ -94,17 +97,17 @@ public class URLTester {
     /**
      * Requests and returns partial http content starting and ending at specific positions.
      * <p>
-     * <b>Untested!</p>
+     * <b>Untested!</b>
      * <p>
      * Behaves like {@link #getContent(String,long)} if
      * <code>lastBytePosition &lt;= firstBytePosition</code>.
      * <p>
      *
-     * @param urlString
+     * @param urlString the url to decode
      * @param firstBytePosition starting at 0
      * @param lastBytePosition starting at 0
      * @return partial http content starting and ending at specific positions
-     * @throws IOException
+     * @throws IOException on error
      */
     public static String getContent(String urlString, long firstBytePosition, long lastBytePosition)
             throws IOException {
@@ -124,9 +127,9 @@ public class URLTester {
     /**
      * Returns all header fields values.
      * 
-     * @param urlString
-     * @return
-     * @throws IOException
+     * @param urlString the url to decode
+     * @return the map
+     * @throws IOException on error
      */
     @SuppressWarnings("unused")
 	public static Map<String, List<String>> getHeaderFields(String urlString) throws IOException {

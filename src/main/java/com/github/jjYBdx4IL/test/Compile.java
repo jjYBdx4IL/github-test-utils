@@ -1,11 +1,11 @@
 /*
- * Copyright (C) 2016 jjYBdx4IL (https://github.com/jjYBdx4IL)
+ * Copyright © 2016 jjYBdx4IL (https://github.com/jjYBdx4IL)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,6 +14,14 @@
  * limitations under the License.
  */
 package com.github.jjYBdx4IL.test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -25,13 +33,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.StringUtils;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+//CHECKSTYLE:OFF
 /**
  *
  * @author jjYBdx4IL
@@ -60,10 +62,10 @@ public abstract class Compile {
 
     /**
      * 
-     * @param packageName
-     * @param imports
-     * @param typeDef
-     * @param content
+     * @param packageName the package name
+     * @param imports the imports
+     * @param typeDef the type definition
+     * @param content the content
      */
     protected void writeClass(String packageName, String[] imports, String typeDef, String content) {
         try {

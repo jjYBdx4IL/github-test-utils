@@ -1,11 +1,11 @@
 /*
- * Copyright (C) 2016 jjYBdx4IL (https://github.com/jjYBdx4IL)
+ * Copyright © 2016 jjYBdx4IL (https://github.com/jjYBdx4IL)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -20,11 +20,12 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
+//CHECKSTYLE:OFF
 /**
  * Helper class for temporarily changing system properties during unit testing.
  *
  * Example:
- * <pre><code>
+ * <pre>{@code
  *   private final PropertyRestorer propertyRestorer = PropertyRestorer.getInstance();
  *
  *   &#64;Before
@@ -37,7 +38,7 @@ import java.util.TimeZone;
  *       propertyRestorer.setDefaultLocale(Locale.GERMAN);
  *       assertEquals("0,1", String.format("%f", 0.1f));
  *   }
- * </code></pre>
+ * }</pre>
  *
  * @author jjYBdx4IL
  */
