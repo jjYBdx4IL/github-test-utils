@@ -1,5 +1,5 @@
 
+## NOTE / DEPRECATION WARNING
 
---
-[![Build Status](https://travis-ci.org/jjYBdx4IL/github-test-utils.png?branch=master)](https://travis-ci.org/jjYBdx4IL/github-test-utils)
-devel/java/github/github-test-utils@7027
+This repository is deprecated. It has been refactored into multiple smaller modules. Those can be found
+mostly in the new 'misc' repository located at https://github.com/jjYBdx4IL/misc .
